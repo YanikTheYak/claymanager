@@ -1,0 +1,26 @@
+{
+    "name": "cyberduck/claymanager",
+    "description": "This package for Laravel 4.3 is used to allow the developer to extract the validation and saving process to another layer, separating it from the controller",
+    "license":"MIT",
+    "keywords":["manager","laravel","validation","save","abstraction","layer"],
+    "authors": [
+        {
+            "name": "Duilio Palacios",
+            "email": "silence@dessigual.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "classmap": [
+        ],
+        "psr-0": {
+            "Clay\\Manager\\": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
