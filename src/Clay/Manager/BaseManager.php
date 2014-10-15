@@ -1,6 +1,6 @@
 <?php
 
-namespace Manager;
+namespace Clay\Manager;
 
 use Illuminate\Events\Dispatcher as Event;
 use Illuminate\Http\Request;

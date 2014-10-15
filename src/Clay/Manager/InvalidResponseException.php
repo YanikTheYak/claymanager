@@ -1,6 +1,6 @@
 <?php
 
-namespace Manager;
+namespace Clay\Manager;
 
 use Symfony\Component\HttpFoundation\Response;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Manager;
+namespace Clay\Manager;
 
 use Illuminate\Support\ServiceProvider;
 

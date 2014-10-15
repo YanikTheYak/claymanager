@@ -1,6 +1,6 @@
 <?php
 
-namespace Manager\Facades;
+namespace Clay\Manager\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
