@@ -1,6 +1,6 @@
 <?php
 
-namespace Clay\Manager;
+namespace Clay\Manager\Exception;
 
 use Symfony\Component\HttpFoundation\Response;
 

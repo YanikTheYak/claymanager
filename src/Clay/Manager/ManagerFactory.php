@@ -40,11 +40,11 @@ class ManagerFactory
      */
     public function __construct(Application $app, Validator $validator, Redirector $redirector, Request $request, Event $event)
     {
-        $this->app = $app;
-        $this->validator = $validator;
+        $this->app        = $app;
+        $this->validator  = $validator;
         $this->redirector = $redirector;
-        $this->request = $request;
-        $this->event = $event;
+        $this->request    = $request;
+        $this->event      = $event;
     }
 
     /**
