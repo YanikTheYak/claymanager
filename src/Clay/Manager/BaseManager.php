@@ -8,6 +8,7 @@ use Illuminate\Routing\Redirector;
 use Illuminate\Validation\Factory as Validator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Clay\Manager\Exception\InvalidResponseException;
 
 abstract class BaseManager
 {
