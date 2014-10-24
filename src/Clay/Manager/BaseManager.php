@@ -12,7 +12,6 @@ use Clay\Manager\Exception\InvalidResponseException;
 
 abstract class BaseManager
 {
-
     protected $entity;
 
     protected $data;
@@ -42,17 +41,20 @@ abstract class BaseManager
 
     protected $route = null;
 
+    private static function getCalledClass() { return get_called_class(); }
+    public static function getClass() { return static::getCalledClass(); }
+
     public function setup(Validator $validator, Redirector $redirector, Request $request, Event $eventDispatcher, $entity, array $data)
     {
-        $this->redirector = $redirector;
-        $this->validator = $validator;
-        $this->request = $request;
+        $this->redirector      = $redirector;
+        $this->validator       = $validator;
+        $this->request         = $request;
         $this->eventDispatcher = $eventDispatcher;
 
-        $this->entity = $entity;
-        $this->data = array_only($data, array_keys($this->getRules()));
+        $this->entity          = $entity;
+        $this->data            = array_only($data, array_keys($this->getRules()));
 
-        $this->setup = true;
+        $this->setup           = true;
     }
 
     abstract public function getRules();
