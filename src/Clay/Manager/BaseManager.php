@@ -97,7 +97,7 @@ abstract class BaseManager
         // Event handling
         if ( ! is_null($this->event)) {
             // The entity is always the first param
-            $this->eventParameters = [$this->entity] + $this->eventParameters;
+            array_unshift($this->eventParameters, $this->entity);
             $this->triggerEvent($this->event, $this->eventParameters);
         }
 
