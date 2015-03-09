@@ -20,10 +20,12 @@ abstract class BaseManager
      * @var Redirector
      */
     protected $redirector;
+
     /**
      * @var Validator
      */
     protected $validator;
+
     /**
      * @var Request
      */
@@ -33,7 +35,10 @@ abstract class BaseManager
      * @var Event
      */
     protected $eventDispatcher;
+
     protected $event;
+
+    protected $eventParameters;
 
     protected $except = ['password', 'password_confirmation', '_token'];
 
@@ -42,7 +47,7 @@ abstract class BaseManager
     protected $route = null;
 
     private static function getCalledClass() { return get_called_class(); }
-    public static function getClass() { return static::getCalledClass(); }
+    public  static function getClass() { return static::getCalledClass(); }
 
     public function setup(Validator $validator, Redirector $redirector, Request $request, Event $eventDispatcher, $entity, array $data)
     {
@@ -50,6 +55,7 @@ abstract class BaseManager
         $this->validator       = $validator;
         $this->request         = $request;
         $this->eventDispatcher = $eventDispatcher;
+        $this->eventParameters = [];
 
         $this->entity          = $entity;
         $this->data            = array_only($data, array_keys($this->getRules()));
@@ -58,6 +64,7 @@ abstract class BaseManager
     }
 
     abstract public function getRules();
+    abstract public function getMessages();
 
     public function checkSetup()
     {
@@ -68,9 +75,10 @@ abstract class BaseManager
     {
         $this->checkSetup();
 
-        $rules = $this->getRules();
+        $rules    = $this->getRules();
+        $messages = $this->getMessages();
 
-        $validation = $this->validator->make($this->data, $rules);
+        $validation = $this->validator->make($this->data, $rules, $messages);
         if ($validation->fails()) {
             $this->invalidResponse($validation->messages()->toArray());
         }
@@ -85,8 +93,12 @@ abstract class BaseManager
     {
         $this->validate();
         $entity = $this->save($this->prepareData($this->data));
+
+        // Event handling
         if ( ! is_null($this->event)) {
-            $this->triggerEvent($this->event, [$this->entity]);
+            // The entity is always the first param
+            $this->eventParameters = [$this->entity] + $this->eventParameters;
+            $this->triggerEvent($this->event, $this->eventParameters);
         }
 
         return $entity;
@@ -100,7 +112,7 @@ abstract class BaseManager
         return $this->entity;
     }
 
-    protected function triggerEvent($event, $parameters = array())
+    protected function triggerEvent($event, $parameters = [])
     {
         $this->eventDispatcher->fire($event, $parameters);
     }
@@ -114,9 +126,9 @@ abstract class BaseManager
      * @param $errors
      * @return Response
      */
-    public function response(array $errors)
+    public function response(array $errors = null)
     {
-        if ($this->request->ajax()) {
+        if ($this->request->ajax() && !is_null($errors)) {
             return new JsonResponse(['errors' => $errors]);
         }
 
