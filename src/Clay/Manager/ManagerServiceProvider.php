@@ -8,7 +8,7 @@ class ManagerServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app['manager'] = $this->app->share(function ($app) {
+        $this->app->singleton('manager', function($app) {
             return new ManagerFactory($app, $app['validator'], $app['redirect'], $app['request'], $app['events']);
         });
     }
